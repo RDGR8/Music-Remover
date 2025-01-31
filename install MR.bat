@@ -16,5 +16,7 @@ echo Scripts >> python311._pth
 echo tcl >> python311._pth
 tar -xf tkinter.zip
 del tkinter.zip
+tar -xf ffmpeg.zip
+del ffmpeg.zip
 .\python Scripts\pip.exe install -r requirements.txt
 .\python Scripts\pip.exe install audio-separator[cpu]==0.28.5 -t .\CPUseparator
