@@ -1,3 +1,7 @@
+curl -L "https://github.com/RDGR8/Music-Remover/archive/refs/tags/v0.0.0.zip" -o MusicRemoverSourceCode.zip
+tar -xf MusicRemoverSourceCode.zip
+del MusicRemoverSourceCode.zip
+cd Music-Remover-v0.0.0
 curl -LO "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
 tar -xf python-3.11.9-embed-amd64.zip
 del python-3.11.9-embed-amd64.zip
