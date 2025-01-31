@@ -1,6 +1,5 @@
 # https://pytorch.org/get-started/previous-versions/
 # https://pypi.org/project/audio-separator/
-global f
 f = open('outputraw.txt', 'a', encoding='unicode-escape')
 import os.path
 import tkinter.messagebox

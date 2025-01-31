@@ -1,0 +1,3 @@
+customtkinter
+tk
+ffmpeg-python
