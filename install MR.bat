@@ -28,3 +28,7 @@ tar -xf ffmpeg.zip
 del ffmpeg.zip
 .\python Scripts\pip.exe install -r requirements.txt
 .\python Scripts\pip.exe install audio-separator[cpu]==0.28.5 -t .\CPUseparator
+
+:: Making shortcuts
+powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%userprofile%\Start Menu\Programs\Music Remover.lnk');$s.TargetPath='%cd%\MR.vbs';$s.Arguments='connect';$s.IconLocation='%cd%\CustomTkinter_icon_Windows.ico';$s.WorkingDirectory='%cd%';$s.WindowStyle=7;$s.Save()"
+powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%userprofile%\Desktop\Music Remover.lnk');$s.TargetPath='%cd%\MR.vbs';$s.Arguments='connect';$s.IconLocation='%cd%\CustomTkinter_icon_Windows.ico';$s.WorkingDirectory='%cd%';$s.WindowStyle=7;$s.Save()"
