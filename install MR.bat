@@ -27,7 +27,7 @@ set "psCommand="(new-object -COM 'Shell.Application').BrowseForFolder(0,'Please 
 for /f "usebackq delims=" %%I in (`powershell %psCommand%`) do set "location=%%I
 cd %location%
 
-echo Downloading the compressed app
+echo Downloading and extracting the app
 curl -L "https://github.com/RDGR8/Music-Remover/archive/refs/tags/v0.0.0.zip" -o MusicRemoverSourceCode.zip
 tar -xf MusicRemoverSourceCode.zip
 del MusicRemoverSourceCode.zip
