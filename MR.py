@@ -27,29 +27,10 @@ from sympy.abc import lamda
 
 temp_dir = tempfile.TemporaryDirectory()
 
-"""
-class Redirect:
 
-    def __init__(self, widget, autoscroll=True):
-        self.widget = widget
-        self.autoscroll = autoscroll
-
-    def write(self, textbox):
-        self.widget.insert('end', textbox)
-        if self.autoscroll:
-            self.widget.see('end')  # autoscroll
-
-    def flush(self):
-        pass
-"""
 
 
 def unload(pkg):
-    """Unload all imports from the given package.
-
-    Args:
-        pkg (module): Python module to unload.
-    """
 
     pkg_dir = os.path.abspath(os.path.dirname(pkg.__file__))
 
@@ -154,15 +135,6 @@ def installGPULibraries(textBox, window):
     global GPUWindowEnableClosing
     GPUWindowEnableClosing = False
 
-
-
-    #p = subprocess.Popen(
-     #   ".\python.exe Scripts\pip.exe uninstall -y audio-separator[cpu]".split(), stdout=subprocess.PIPE, bufsize=1, text=True)
-
-    #while p.poll() is None:
-     #   msg = p.stdout.readline().strip()  # read a line from the process output
-      #  if msg:
-       #     print(f"{msg}\n")#window.event_generate("<<Foo>>", when="tail")
     p = subprocess.Popen(
         ".\python.exe Scripts\pip.exe install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu124 -t .\\GPUseparator".split(),
         stdout=subprocess.PIPE, bufsize=1, text=True)
@@ -192,8 +164,6 @@ def insertTextBox(textBox):
 def closingGPUWindow(window, textBox):
     if (GPUWindowEnableClosing):
         window.destroy()
-        #sys.stdout = StdoutRedirector(textBox)
-        #sys.stderr = StdoutRedirector(textBox)
     else:
         tkinter.messagebox.showerror('ERROR', "Please wait for the current process to finish")
 
@@ -242,7 +212,6 @@ def guiOpenGPUWindow():
     global GPUWindowEnableClosing
     GPUWindowEnableClosing = True
     GPUWindow = customtkinter.CTkToplevel(root)
-    GPUWindowTextBoxVariable = StringVar(GPUWindow)
     GPUWindow.focus_force()
     GPUWindow.grab_set()
     GPUWindow.geometry(
@@ -288,8 +257,7 @@ def guiOpenGPUWindow():
 
 
 
-    #sys.stdout = StdoutRedirector(GPUWindowTextBox)
-    #sys.stderr = StdoutRedirector(GPUWindowTextBox)
+
 
 
 guiGPUHelpButton = customtkinter.CTkButton(master=frame, height=100, text="How to Use GPU", command=lambda: guiOpenGPUWindow() if enableOpenGPUWindow else tkinter.messagebox.showerror(
