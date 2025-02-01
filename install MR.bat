@@ -1,3 +1,5 @@
+set "version=0.0.0"
+
 :: Check if Visual C++ is installed
 @echo off
 echo Checking if Visual C++ is installed
@@ -28,10 +30,10 @@ for /f "usebackq delims=" %%I in (`powershell %psCommand%`) do set "location=%%I
 cd %location%
 
 echo Downloading and extracting the app
-curl -L "https://github.com/RDGR8/Music-Remover/archive/refs/tags/v0.0.0.zip" -o MusicRemoverSourceCode.zip
+curl -L "https://github.com/RDGR8/Music-Remover/archive/refs/tags/v%version%.zip" -o MusicRemoverSourceCode.zip
 tar -xf MusicRemoverSourceCode.zip
 del MusicRemoverSourceCode.zip
-cd Music-Remover-0.0.0
+cd Music-Remover-%version%
 
 :: Download embedded python 3.11.9
 echo Downloading embedded python
