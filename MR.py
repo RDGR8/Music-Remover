@@ -75,7 +75,6 @@ GPUWindowEnableClosing = True
 root = customtkinter.CTk()
 root.geometry(f"{1000}x{600}+{int((root.winfo_screenwidth() - 1000) / 2)}+{int((root.winfo_screenheight() - 600) / 2)}")
 
-#root.geometry('1000x500')
 root.resizable(0, 0)
 root.title('Music Remover')
 # root.after(201, lambda :root.iconbitmap("./youtubeWhiteLogo.ico"))
