@@ -30,21 +30,6 @@ temp_dir = tempfile.TemporaryDirectory()
 
 
 
-def unload(pkg):
-
-    pkg_dir = os.path.abspath(os.path.dirname(pkg.__file__))
-
-    def _is_part_of_pkg(module_):
-        mod_path = getattr(module_, "__file__", os.sep)
-        mod_dir = os.path.abspath(os.path.dirname(mod_path))
-
-        return mod_dir.startswith(pkg_dir)
-
-    to_unload = [name for name, module in sys.modules.items() if _is_part_of_pkg(module)]
-
-    for name in to_unload:
-        sys.modules.pop(name)
-
 
 class StdoutRedirector(object):
 
@@ -52,8 +37,6 @@ class StdoutRedirector(object):
         self.text_area = text_area
 
     def write(self, str):
-        global f
-        f = open('outputraw.txt', 'a', encoding='unicode-escape')
         try:
             if(rf'{str[0]}' == '\r'):
                 self.text_area.delete("end-1l", "end")
