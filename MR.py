@@ -219,7 +219,7 @@ def guiOpenGPUWindow():
     GPUWindow.focus_force()
     GPUWindow.grab_set()
     GPUWindow.geometry(
-        f"{500}x{400}+{int((root.winfo_screenwidth() - 500) / 2)}+{int((root.winfo_screenheight() - 400) / 2)}")
+        f"{500}x{450}+{int((root.winfo_screenwidth() - 500) / 2)}+{int((root.winfo_screenheight() - 450) / 2)}")
     GPUWindow.title("Using GPU")
     GPUWindow.resizable(0, 0)
 
@@ -227,8 +227,8 @@ def guiOpenGPUWindow():
     GPUWindowLabel = customtkinter.CTkLabel(master=GPUWindow, text="How to use the GPU", font=("Arial", 20))
     GPUWindowLabel.pack(pady=10, padx=20, side=TOP)
 
-    GPUWindowRequirements = customtkinter.CTkLabel(master=GPUWindow,
-                                                   text="Important notes:\nNvidia GTX 1060 6GB is the minimum requirement for GPU conversions.\nNvidia GPUs with at least 8GBs of V-RAM are recommended.",
+    GPUWindowRequirements = customtkinter.CTkLabel(master=GPUWindow, wraplength=400,
+                                                   text="Important notes:\nNVIDIA GPUs only, a minimum requirement of GTX 1060 6GB, and at least 8GBs ofV-RAM are recommended.\nRestart the app after downloading the GPU Python Libraries.\nIf you face issues or the app doesn't work, open the file mode.txt in the directory of the app and change it to CPU",
                                                    font=("Arial", 12))
     GPUWindowRequirements.pack(pady=10, padx=20, side=TOP)
 
