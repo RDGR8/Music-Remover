@@ -82,16 +82,21 @@ root.title('Music Remover')
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=False)
 
+separatorInitialized = False
 
 def removeMusic(videoFile, outputLocation):
     global enableOpenGPUWindow
+    global separatorInitialized
+    global Separator
     enableOpenGPUWindow = False
     # Intialize the separator
 
-    Separator = separator.Separator(output_single_stem='Vocals', output_dir=temp_dir.name,
-                                    log_formatter=logging.Formatter('%(message)s'))
+    if(not separatorInitialized):
+        Separator = separator.Separator(output_single_stem='Vocals', output_dir=temp_dir.name,
+                                        log_formatter=logging.Formatter('%(message)s'))
 
-    Separator.load_model('UVR-MDX-NET-Inst_HQ_3.onnx')
+        Separator.load_model('UVR-MDX-NET-Inst_HQ_3.onnx')
+        separatorInitialized = True
 
     # Process audio
     output_files = Separator.separate(videoFile)
