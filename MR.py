@@ -153,6 +153,13 @@ def installGPULibraries(textBox, window):
         if msg:
             window.event_generate("<<Foo>>", when="tail")
 
+    p = subprocess.Popen(".\python.exe Scripts\pip.exe cache purge".split()
+                         ,stdout=subprocess.PIPE, bufsize=1, text=True)
+    while p.poll() is None:
+        msg = p.stdout.readline().strip()  # read a line from the process output
+        if msg:
+            window.event_generate("<<Foo>>", when="tail")
+
     with open('mode.txt', 'w') as f:
         f.write('GPU')
 
