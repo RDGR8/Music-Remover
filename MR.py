@@ -60,8 +60,7 @@ root.geometry(f"{1000}x{600}+{int((root.winfo_screenwidth() - 1000) / 2)}+{int((
 
 root.resizable(0, 0)
 root.title('Music Remover')
-# root.after(201, lambda :root.iconbitmap("./youtubeWhiteLogo.ico"))
-
+root.iconbitmap("icon.ico")
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=False)
 
