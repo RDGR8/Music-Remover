@@ -1,4 +1,4 @@
-set "version=0.0.0"
+set "version=0.0.1"
 
 :: Check if Visual C++ is installed
 @echo off
@@ -56,7 +56,7 @@ del tkinter.zip
 tar -xf ffmpeg.zip
 del ffmpeg.zip
 .\python Scripts\pip.exe install -r requirements.txt
-.\python Scripts\pip.exe install audio-separator[cpu]==0.28.5 -t .\CPUseparator
+.\python Scripts\pip.exe install audio-separator[cpu]==0.28.5 onnx=1.16.1 numpy==2.1 -t .\CPUseparator
 
 :: Making shortcuts
 echo creating Start Menu shortcut

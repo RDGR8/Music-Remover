@@ -122,8 +122,25 @@ def installGPULibraries(textBox, window):
     global GPUWindowEnableClosing
     GPUWindowEnableClosing = False
 
+
+    p = subprocess.Popen(
+        ".\python.exe Scripts\pip.exe install onnx==1.16.1 -t .\\GPUseparator".split(),
+        stdout=subprocess.PIPE, bufsize=1, text=True)
+    while p.poll() is None:
+        msg = p.stdout.readline().strip()  # read a line from the process output
+        if msg:
+            window.event_generate("<<Foo>>", when="tail")
+
     p = subprocess.Popen(
         ".\python.exe Scripts\pip.exe install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu124 -t .\\GPUseparator".split(),
+        stdout=subprocess.PIPE, bufsize=1, text=True)
+    while p.poll() is None:
+        msg = p.stdout.readline().strip()  # read a line from the process output
+        if msg:
+            window.event_generate("<<Foo>>", when="tail")
+
+    p = subprocess.Popen(
+        ".\python.exe Scripts\pip.exe install numpy==2.1.2 --upgrade --index-url https://download.pytorch.org/whl/cu124 -t .\\GPUseparator".split(),
         stdout=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
