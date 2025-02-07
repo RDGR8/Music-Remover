@@ -1,7 +1,42 @@
-set "version=0.0.1"
+@echo off
+
+:: BatchGotAdmin
+:-------------------------------------
+REM  --> Check for permissions
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+REM --> If error flag set, we do not have admin.
+if '%errorlevel%' NEQ '0' (
+    echo Requesting administrative privileges...
+    goto UACPrompt
+) else ( goto gotAdmin )
+
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    set params = %*:"=""
+    echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
+
+    "%temp%\getadmin.vbs"
+    del "%temp%\getadmin.vbs"
+    exit /B
+
+:gotAdmin
+    pushd "%CD%"
+    CD /D "%~dp0"
+:--------------------------------------
+
+
+if exist "%temp%\consoleSettingsBackup.reg" regedit /S "%temp%\consoleSettingsBackup.reg" & DEL /F /Q "%temp%\consoleSettingsBackup.reg" & goto START
+regedit /S /e "%temp%\consoleSettingsBackup.reg" "HKEY_CURRENT_USER\Console"
+reg add "HKCU\Console" /v QuickEdit /t REG_DWORD /d 0 /f
+start "" "cmd" /c ""%~dpnx0" & exit"
+exit
+
+: START
+
+set "version=0.0.2"
 
 :: Check if Visual C++ is installed
-@echo off
 echo Checking if Visual C++ is installed
 setlocal enabledelayedexpansion
 set "found=false"
@@ -16,7 +51,8 @@ for /f "usebackq delims=" %%I in (`powershell %psCommand2%`) do (
 
 if "%found%" == "false" (
 	echo Please install Visual C++ and open the installer again
-	echo Here is a link: https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170
+	start "" https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170
+	echo Please Install Visual C++
 	echo:
 	echo Press any key to exit...
 	pause >nul
