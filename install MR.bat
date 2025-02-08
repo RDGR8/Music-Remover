@@ -60,6 +60,30 @@ IF "%found%" == "false" (
 ) ELSE echo 	Visual C++ is installed
 endlocal
 
+
+
+
+goto :CHECK_PYTHON
+
+:CHECK_PYTHON
+	echo Checking Python 3.11
+	py -3.11 -V >nul 2>nul && (goto :PYTHON_311_FOUND)
+s
+	goto :PYTHON_311_NOT_FOUND
+
+
+:PYTHON_311_NOT_FOUND
+	echo 	Couldn't find Python 3.11
+	echo 	Downloading Python 3.11 installer 
+	curl -sSL "https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe" -o "%temp%\python-3.11.9-amd64.exe"
+	echo 	Installing Python 3.11
+	%temp%\python-3.11.9-amd64.exe /silent PrependPath=1
+
+:PYTHON_311_FOUND
+	echo 	Python 3.11 is installed
+
+
+
 :: Open folder dialog and get path, variable %location%, cd into it
 set "psCommand="(new-object -COM 'Shell.Application').BrowseForFolder(0,'Please where you want to download Music Remover.',0x010,17).self.path""
 for /f "usebackq delims=" %%I in (`powershell %psCommand%`) do set "location=%%I
