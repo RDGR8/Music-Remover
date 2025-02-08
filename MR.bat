@@ -1,1 +1,2 @@
-.\python.exe .\MR.py
+call .venv/Scripts/activate
+python MR.py

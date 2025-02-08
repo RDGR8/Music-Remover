@@ -9,7 +9,7 @@ import sys
 with open('mode.txt', 'r') as f:
     mode = f.read()
 # Dynamically insert the path based on the mode
-sys.path.insert(1, f'./{mode}separator/')
+sys.path.insert(1, f'.venv/{mode}separator/')
 from audio_separator import separator
 import customtkinter
 from tkinter import filedialog
@@ -123,7 +123,7 @@ def installGPULibraries(textBox, window):
 
 
     p = subprocess.Popen(
-        ".\python.exe Scripts\pip.exe install onnx==1.16.1 -t .\\GPUseparator".split(),
+        ".venv\Scripts\python.exe -m pip install onnx==1.16.1 -t .venv\\GPUseparator".split(),
         stdout=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
@@ -131,7 +131,7 @@ def installGPULibraries(textBox, window):
             window.event_generate("<<Foo>>", when="tail")
 
     p = subprocess.Popen(
-        ".\python.exe Scripts\pip.exe install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu124 -t .\\GPUseparator".split(),
+        ".venv\Scripts\python.exe -m pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu124 -t .venv\\GPUseparator".split(),
         stdout=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
@@ -139,21 +139,21 @@ def installGPULibraries(textBox, window):
             window.event_generate("<<Foo>>", when="tail")
 
     p = subprocess.Popen(
-        ".\python.exe Scripts\pip.exe install numpy==2.1.2 --upgrade --index-url https://download.pytorch.org/whl/cu124 -t .\\GPUseparator".split(),
+        ".venv\Scripts\python.exe -m pip install numpy==2.1.2 --upgrade --index-url https://download.pytorch.org/whl/cu124 -t .venv\\GPUseparator".split(),
         stdout=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
             window.event_generate("<<Foo>>", when="tail")
 
-    p = subprocess.Popen(".\python.exe Scripts\pip.exe install audio-separator[gpu]==0.28.5 -t .\\GPUseparator".split()
+    p = subprocess.Popen(".venv\Scripts\python.exe -m pip install audio-separator[gpu]==0.28.5 -t .venv\\GPUseparator".split()
                          ,stdout=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
             window.event_generate("<<Foo>>", when="tail")
 
-    p = subprocess.Popen(".\python.exe Scripts\pip.exe cache purge".split()
+    p = subprocess.Popen(".venv\Scripts\python.exe -m pip cache purge".split()
                          ,stdout=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
