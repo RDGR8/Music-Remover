@@ -49,15 +49,15 @@ for /f "usebackq delims=" %%I in (`powershell %psCommand2%`) do (
     )
 )
 
-if "%found%" == "false" (
-	echo Please install Visual C++ and open the installer again
-	start "" https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170
-	echo Please Install Visual C++
-	echo:
-	echo Press any key to exit...
-	pause >nul
-	EXIT /B
-)
+IF "%found%" == "false" (
+	echo Visual C++ is not installed, downloading will begin
+	curl -sSL "https://aka.ms/vs/17/release/vc_redist.x64.exe" -o "%temp%\vc_redist.x64.exe"
+	echo starting install
+	%temp%\VC_redist.x64.exe /quiet /norestart
+	echo finished install
+
+
+) ELSE echo 	Visual C++ is installed
 endlocal
 
 :: Open folder dialog and get path, variable %location%, cd into it
