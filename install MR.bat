@@ -87,6 +87,10 @@ s
 :: Open folder dialog and get path, variable %location%, cd into it
 set "psCommand="(new-object -COM 'Shell.Application').BrowseForFolder(0,'Please where you want to download Music Remover.',0x010,17).self.path""
 for /f "usebackq delims=" %%I in (`powershell %psCommand%`) do set "location=%%I
+if not exist "%location%" (
+    echo Folder does not exist or none was chosen
+    pause
+    exit()
 cd %location%
 
 echo App Setup
