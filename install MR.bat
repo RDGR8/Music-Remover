@@ -7,22 +7,22 @@ REM  --> Check for permissions
 
 REM --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
-    echo Requesting administrative privileges...
-    goto UACPrompt
+	echo Requesting administrative privileges...
+	goto UACPrompt
 ) else ( goto gotAdmin )
 
 :UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    set params = %*:"=""
-    echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
+	echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+	set params = %*:"=""
+	echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
 
-    "%temp%\getadmin.vbs"
-    del "%temp%\getadmin.vbs"
-    exit /B
+	"%temp%\getadmin.vbs"
+	del "%temp%\getadmin.vbs"
+	exit /B
 
 :gotAdmin
-    pushd "%CD%"
-    CD /D "%~dp0"
+	pushd "%CD%"
+	CD /D "%~dp0"
 :--------------------------------------
 
 
@@ -43,10 +43,10 @@ set "found=false"
 set "psCommand2="( Get-WmiObject -Class win32_product ^| Select-Object -Property Name )""
 
 for /f "usebackq delims=" %%I in (`powershell %psCommand2%`) do (
-    set programName=%%I
-    IF "!programName:~0,20!" == "Microsoft Visual C++" (
-        set "found=true"
-    )
+	set programName=%%I
+	IF "!programName:~0,20!" == "Microsoft Visual C++" (
+		set "found=true"
+	)
 )
 
 IF "%found%" == "false" (
@@ -74,7 +74,7 @@ s
 
 :PYTHON_311_NOT_FOUND
 	echo 	Couldn't find Python 3.11
-	echo 	Downloading Python 3.11 installer 
+	echo 	Downloading Python 3.11 installer
 	curl -sSL "https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe" -o "%temp%\python-3.11.9-amd64.exe"
 	echo 	Installing Python 3.11
 	%temp%\python-3.11.9-amd64.exe /silent PrependPath=1
@@ -88,9 +88,9 @@ s
 set "psCommand="(new-object -COM 'Shell.Application').BrowseForFolder(0,'Please where you want to download Music Remover.',0x010,17).self.path""
 for /f "usebackq delims=" %%I in (`powershell %psCommand%`) do set "location=%%I
 if not exist "%location%" (
-    echo Folder does not exist or none was chosen
-    pause
-    exit()
+	echo Folder does not exist or none was chosen
+	pause
+	exit()
 cd %location%
 
 echo App Setup
