@@ -1,41 +1,28 @@
 # https://pytorch.org/get-started/previous-versions/
 # https://pypi.org/project/audio-separator/
-
-from tkinter import *
-from tkinter.ttk import Progressbar
-
-window = Tk()
-progressText = Text(window, height=10)
-bar = Progressbar(window, orient=HORIZONTAL, length=300)
-bar.pack(pady=10)
-
-directImports = ["os.path", "tkinter.messagebox", "os", "ffmpeg", "sys", "customtkinter", "tempfile", "logging" ,"webbrowser", "subprocess"]
-fromImports = [["tkinter", "filedialog"], ["threading", "Thread"], ["io", "StringIO"], ["audio_separator", "separator"], ["sympy.abc", "lamda"]]
-
-totalBar = len(directImports) + len(fromImports) + 10
-
-for directImport in directImports:
-    progressText.delete('1.0', END)
-    progressText.insert(END, f"importing {directImport}")
-    exec(f"import {directImport}")
-    bar['value'] += 100/totalBar
-
-
+import os.path
+import tkinter.messagebox
+import os
+import ffmpeg
+import sys
 
 with open('mode.txt', 'r') as f:
     mode = f.read()
+# Dynamically insert the path based on the mode
 sys.path.insert(1, f'.venv/{mode}separator/')
+from audio_separator import separator
+import customtkinter
+from tkinter import filedialog
+from tkinter import *
+from threading import Thread
+import tempfile
+import logging
+import webbrowser
+import subprocess
+from io import StringIO
 
+from sympy.abc import lamda
 
-for i in range(len(fromImports)):
-    progressText.delete('1.0', END)
-    progressText.insert(END, f"importing {fromImports[i][1]} from {fromImports[i][0]} ")
-    exec(f"from {fromImports[i][0]} import {fromImports[i][1]}")
-    bar['value'] += 100/totalBar
-
-
-progressText.delete('1.0', END)
-progressText.insert(END, "Initiating the program")
 
 temp_dir = tempfile.TemporaryDirectory()
 
@@ -309,7 +296,6 @@ guiGPUHelpButton.pack(pady=20, padx=21)
 sys.stdout = StdoutRedirector(guiProgressBarText)
 sys.stderr = StdoutRedirector(guiProgressBarText)
 
-window.destroy()
 
 root.mainloop()
 
