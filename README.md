@@ -1,6 +1,6 @@
 ## 
 <p align="center">
-  <a href="https://github.com/RDGR8/Music-Remover/releases/download/v0.0.1/install.MR.bat" style="font-size: 52px;">Download from here</a>
+  <a href="https://github.com/RDGR8/Music-Remover/releases/download/v0.0.1/install.MR.bat" style="font-size: 32px;">Download from here</a>
 </p>
 
 ## What Does The App do?
