@@ -1,3 +1,5 @@
+## Download
+![Static Badge](https://img.shields.io/badge/Download-Green?link=https%3A%2F%2Fgithub.com%2FRDGR8%2FMusic-Remover%2Freleases%2Fdownload%2Fv0.0.1%2Finstall.MR.bat)
 ## What Does The App do?
 The app aims to provide the user with a local and easy way to filter music out of videos, inputting video and outputting a video free of music.
 
