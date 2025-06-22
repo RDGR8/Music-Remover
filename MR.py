@@ -1,29 +1,41 @@
 # https://pytorch.org/get-started/previous-versions/
 # https://pypi.org/project/audio-separator/
-import os.path
-import tkinter.messagebox
-import os
-import ffmpeg
-import sys
+
+from tkinter import *
+from tkinter.ttk import Progressbar
+
+window = Tk()
+progressText = Text(window, height=10)
+bar = Progressbar(window, orient=HORIZONTAL, length=300)
+bar.pack(pady=10)
+
+directImports = ["os.path", "tkinter.messagebox", "os", "ffmpeg", "sys", "customtkinter", "tempfile", "logging" ,"webbrowser", "subprocess"]
+fromImports = [["tkinter", "filedialog"], ["threading", "Thread"], ["io", "StringIO"], ["audio_separator", "separator"], ["sympy.abc", "lamda"]]
+
+totalBar = len(directImports) + len(fromImports) + 10
+
+for directImport in directImports:
+    progressText.delete('1.0', END)
+    progressText.insert(END, f"importing {directImport}")
+    exec(f"import {directImport}")
+    bar['value'] += 100/totalBar
+
+
 
 with open('mode.txt', 'r') as f:
     mode = f.read()
-# Dynamically insert the path based on the mode
 sys.path.insert(1, f'.venv/{mode}separator/')
-from audio_separator import separator
-import customtkinter
-from tkinter import filedialog
-from tkinter import *
-from threading import Thread
-import tempfile
-import logging
-import webbrowser
-import subprocess
-from io import StringIO
-
-from sympy.abc import lamda
 
 
+for i in range(len(fromImports)):
+    progressText.delete('1.0', END)
+    progressText.insert(END, f"importing {fromImports[i][1]} from {fromImports[i][0]} ")
+    exec(f"from {fromImports[i][0]} import {fromImports[i][1]}")
+    bar['value'] += 100/totalBar
+
+
+progressText.delete('1.0', END)
+progressText.insert(END, "Initiating the program")
 
 temp_dir = tempfile.TemporaryDirectory()
 
@@ -48,6 +60,7 @@ class StdoutRedirector(object):
 
     def flush(self):
         pass
+
 
 
 customtkinter.set_appearance_mode('dark')
@@ -226,6 +239,22 @@ def guiOpenGPUWindow():
     GPUWindow.grab_set()
     GPUWindow.geometry(
         f"{500}x{450}+{int((root.winfo_screenwidth() - 500) / 2)}+{int((root.winfo_screenheight() - 450) / 2)}")
+
+    def combobox_callback(choice):
+        combobox_var.set(mode)
+        with open('mode.txt', 'w') as f:
+            f.write(choice)
+
+        if(choice != mode):
+            tkinter.messagebox.showinfo("Changing mode", f"Processing will be changed to {choice} after restarting the app")
+        else:
+            tkinter.messagebox.showinfo("Changing mode", f"Processing currently is {mode}")
+    combobox_var = customtkinter.StringVar(value="GPU")
+    combobox = customtkinter.CTkComboBox(master=GPUWindow, values=["CPU", "GPU"],
+                                         command=combobox_callback, variable=combobox_var)
+    combobox_var.set(mode)
+    combobox.pack(pady=5, padx=5, side=TOP)
+
     GPUWindow.title("Using GPU")
     GPUWindow.resizable(0, 0)
 
@@ -249,7 +278,7 @@ def guiOpenGPUWindow():
 
     GPUWindowTextBox = customtkinter.CTkTextbox(master=GPUWindow, font=("Arial", 10), width=400, height=100)
     GPUWindowTextBox.bind("<Key>", lambda event: "break")
-    GPUWindowTextBox.pack(pady=20, padx=20, side=BOTTOM)
+    GPUWindowTextBox.pack(pady=20, padx=20)
 
 
     GPUWindow.bind("<<Foo>>", lambda event: insertTextBox(GPUWindowTextBox))
@@ -270,7 +299,7 @@ def guiOpenGPUWindow():
 
 
 
-guiGPUHelpButton = customtkinter.CTkButton(master=frame, height=100, text="How to Use GPU", command=lambda: guiOpenGPUWindow() if enableOpenGPUWindow else tkinter.messagebox.showerror(
+guiGPUHelpButton = customtkinter.CTkButton(master=frame, height=100, text="Processing modes (CPU/GPU)", command=lambda: guiOpenGPUWindow() if enableOpenGPUWindow else tkinter.messagebox.showerror(
                                                'ERROR', "Please wait for the current process to finish"))
 
 guiGPUHelpButton.pack(pady=20, padx=21)
@@ -280,6 +309,7 @@ guiGPUHelpButton.pack(pady=20, padx=21)
 sys.stdout = StdoutRedirector(guiProgressBarText)
 sys.stderr = StdoutRedirector(guiProgressBarText)
 
+window.destroy()
 
 root.mainloop()
 
