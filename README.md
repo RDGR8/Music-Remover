@@ -10,10 +10,10 @@ The app uses MDX NET Inst HQ 3 model that separates the audio into vocals and in
 At the end the app combines the audio and video without interfering with the compression of the video, though the audio is compressed with its  original encoder.
 
 ## Goals
-- [ ] User-Friendly Installer
+- [x] User-Friendly Installer
 - [ ] Better Icon
 - [ ] Better App Design
-- [ ] Option to Change From CPU to GPU and Vice Versa
+- [x] Option to Change From CPU to GPU and Vice Versa
 - [ ] Support YouTube Video Links
 - [ ] Options for AI Models
 - [ ] Support for Mac (Intel and M1) and Linux
