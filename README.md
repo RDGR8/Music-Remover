@@ -1,5 +1,5 @@
-## Download
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/RDGR8/Music-Remover/total)
+## [Download from here](https://github.com/RDGR8/Music-Remover/releases/download/v0.0.1/install.MR.bat)
+
 ## What Does The App do?
 The app aims to provide the user with a local and easy way to filter music out of videos, inputting video and outputting a video free of music.
 
