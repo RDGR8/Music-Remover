@@ -7,7 +7,12 @@ import ffmpeg
 import sys
 
 with open('mode.txt', 'r') as f:
-    mode = f.read()
+    modeFile = f.readlines()
+    for i in range(len(modeFile)):
+        modeFile[i] = modeFile[i].replace("\n", "")
+    mode = modeFile[0]
+    global GPUAvaliable
+    GPUAvaliable = bool(int(modeFile[1]))
 # Dynamically insert the path based on the mode
 sys.path.insert(1, f'.venv/{mode}separator/')
 from audio_separator import separator
@@ -124,7 +129,7 @@ def installGPULibraries(textBox, window):
 
     p = subprocess.Popen(
         ".venv\Scripts\python.exe -m pip install onnx==1.16.1 -t .venv\\GPUseparator".split(),
-        stdout=subprocess.PIPE, bufsize=1, text=True)
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
@@ -132,7 +137,7 @@ def installGPULibraries(textBox, window):
 
     p = subprocess.Popen(
         ".venv\Scripts\python.exe -m pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu124 -t .venv\\GPUseparator".split(),
-        stdout=subprocess.PIPE, bufsize=1, text=True)
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
@@ -140,28 +145,32 @@ def installGPULibraries(textBox, window):
 
     p = subprocess.Popen(
         ".venv\Scripts\python.exe -m pip install numpy==2.1.2 --upgrade --index-url https://download.pytorch.org/whl/cu124 -t .venv\\GPUseparator".split(),
-        stdout=subprocess.PIPE, bufsize=1, text=True)
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
             window.event_generate("<<Foo>>", when="tail")
 
     p = subprocess.Popen(".venv\Scripts\python.exe -m pip install audio-separator[gpu]==0.28.5 -t .venv\\GPUseparator".split()
-                         ,stdout=subprocess.PIPE, bufsize=1, text=True)
+                         ,stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
             window.event_generate("<<Foo>>", when="tail")
 
     p = subprocess.Popen(".venv\Scripts\python.exe -m pip cache purge".split()
-                         ,stdout=subprocess.PIPE, bufsize=1, text=True)
+                         ,stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True)
     while p.poll() is None:
         msg = p.stdout.readline().strip()  # read a line from the process output
         if msg:
             window.event_generate("<<Foo>>", when="tail")
 
     with open('mode.txt', 'w') as f:
-        f.write('GPU')
+        newLine = "\n"
+        f.write(f'{mode}\n1')
+    global GPUAvaliable
+    GPUAvaliable = True
+
 
 
     GPUWindowEnableClosing = True
@@ -229,13 +238,18 @@ def guiOpenGPUWindow():
 
     def combobox_callback(choice):
         combobox_var.set(mode)
-        with open('mode.txt', 'w') as f:
-            f.write(choice)
 
-        if(choice != mode):
+
+        if(not GPUAvaliable and choice == "GPU"):
+            tkinter.messagebox.showerror('ERROR', "GPU Python Libraries were not installed (successfully)")
+        elif(choice != mode):
             tkinter.messagebox.showinfo("Changing mode", f"Processing will be changed to {choice} after restarting the app")
+            with open('mode.txt', 'w') as f:
+                f.write(choice)
         else:
             tkinter.messagebox.showinfo("Changing mode", f"Processing currently is {mode}")
+            with open('mode.txt', 'w') as f:
+                f.write(choice)
     combobox_var = customtkinter.StringVar(value="GPU")
     combobox = customtkinter.CTkComboBox(master=GPUWindow, values=["CPU", "GPU"],
                                          command=combobox_callback, variable=combobox_var)
